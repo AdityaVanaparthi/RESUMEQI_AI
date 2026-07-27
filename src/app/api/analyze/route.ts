@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { PDFParse } from "pdf-parse";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const fail = (message: string, status: number) => Response.json({ error: message }, { status });
 
