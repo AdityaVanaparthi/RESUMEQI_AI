@@ -1,10 +1,26 @@
 import { GoogleGenAI } from "@google/genai";
-import { PDFParse } from "pdf-parse";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const fail = (message: string, status: number) => Response.json({ error: message }, { status });
+
+// pdfjs-dist (used internally by pdf-parse) references these browser-only globals
+// at module-evaluation time. They don't exist in Vercel's Node.js serverless runtime,
+// which crashes the whole route before any of our own code can run. We only need
+// plain text extraction (no canvas rendering), so minimal no-op stubs are safe here.
+function ensurePdfJsGlobals() {
+  const g = globalThis as Record<string, unknown>;
+  if (typeof g.DOMMatrix === "undefined") {
+    g.DOMMatrix = class DOMMatrix {};
+  }
+  if (typeof g.ImageData === "undefined") {
+    g.ImageData = class ImageData {};
+  }
+  if (typeof g.Path2D === "undefined") {
+    g.Path2D = class Path2D {};
+  }
+}
 
 const RESULT_SCHEMA = {
   type: "object",
@@ -61,6 +77,8 @@ export async function POST(request: Request) {
     if (buffer.subarray(0, 5).toString() !== "%PDF-") return fail("This file is not a valid PDF.", 400);
     let resumeText = "";
     try {
+      ensurePdfJsGlobals();
+      const { PDFParse } = await import("pdf-parse");
       const parser = new PDFParse({ data: buffer });
       const result = await parser.getText();
       await parser.destroy();
