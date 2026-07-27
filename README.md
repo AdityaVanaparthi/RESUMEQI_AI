@@ -47,6 +47,24 @@ src/
         route.ts           # POST endpoint: parses PDF, calls Gemini, returns structured result
 ```
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A["Browser: /upload<br/>Resume PDF + job description"] -->|POST FormData| B["/api/analyze (serverless)<br/>Validate, extract PDF text"]
+    B -->|Structured prompt| C["Gemini (JSON schema mode)<br/>Scores, skills, insights"]
+    C -->|JSON result| D["sessionStorage → /result<br/>Renders the dashboard"]
+```
+
+No database or auth: the analysis result is passed from `/upload` to `/result` via `sessionStorage`, not a persisted session. This keeps the backend stateless, at the cost of results not being shareable via link or revisitable after the tab closes.
+
+## Screenshots
+
+<!-- Add screenshots to a `docs/screenshots/` folder in the repo, then reference them below, e.g.: -->
+<!-- ![Homepage](docs/screenshots/homepage.png) -->
+<!-- ![Upload page](docs/screenshots/upload.png) -->
+<!-- ![Result dashboard](docs/screenshots/result.png) -->
+
 ## Getting started
 
 ### Prerequisites
