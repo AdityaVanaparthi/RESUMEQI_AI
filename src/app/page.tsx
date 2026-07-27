@@ -1,65 +1,77 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const features = [
+  ["01", "Upload your resume", "Drop in your current resume in PDF or DOCX format."],
+  ["02", "Let AI do the analysis", "Get a clear, practical evaluation of your skills and experience."],
+  ["03", "Apply with confidence", "Use targeted feedback to make every application stronger."],
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main>
+      <section className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow">Your next role, clarified</span>
+          <h1>Turn your resume into your strongest advantage.</h1>
+          <p>
+            ResumeIQ gives you the honest, AI-powered feedback you need to stand
+            out in a crowded job market.
           </p>
+          <div className="hero-actions">
+            <Link href="/upload" className="button button-primary">Analyze my resume <span>→</span></Link>
+            <a href="#how-it-works" className="button button-secondary">See how it works</a>
+          </div>
+          <div className="trust-row">
+            <div className="avatars"><span>AP</span><span>JD</span><span>MS</span><span>+</span></div>
+            <p><strong>10,000+ job seekers</strong><br />already improving their chances</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="resume-preview" aria-label="Resume analysis preview">
+          <div className="preview-glow" />
+          <div className="score-card">
+            <div className="score-top"><span>YOUR SCORES</span><span className="score-trend">↑ 12 pts</span></div>
+            <div className="score-mini-row">
+              <div className="score-mini">
+                <span className="score-mini-label">Resume</span>
+                <div className="score-mini-number">84</div>
+                <div className="score-mini-bar"><span style={{ width: "84%" }} /></div>
+              </div>
+              <div className="score-mini">
+                <span className="score-mini-label">ATS</span>
+                <div className="score-mini-number">76</div>
+                <div className="score-mini-bar"><span style={{ width: "76%" }} /></div>
+              </div>
+            </div>
+            <p>Looking strong! A few changes could make a big difference.</p>
+          </div>
+          <div className="paper-card">
+            <div className="paper-heading"><span className="paper-avatar">A</span><div><b>Alex Morgan</b><small>Product Designer</small></div></div>
+            <div className="paper-lines"><i /><i /><i className="short" /></div>
+            <div className="paper-section"><b>Experience</b><i /><i /><i className="short" /></div>
+            <div className="paper-section">
+              <b>Skills</b>
+              <div className="skill-pills">
+                <span className="skill-pill-found">UX Design</span>
+                <span className="skill-pill-found">Figma</span>
+                <span className="skill-pill-missing">Usability Testing</span>
+              </div>
+            </div>
+          </div>
+          <div className="insight-card"><span className="sparkle">✦</span><div><b>Top insight</b><p>Add measurable outcomes to your last role.</p></div></div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section id="how-it-works" className="process-section">
+        <div className="section-intro"><span className="eyebrow">Simple by design</span><h2>A better resume is three steps away.</h2></div>
+        <div className="steps">
+          {features.map(([number, title, text]) => <article className="step" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}
+        </div>
+      </section>
+
+      <section className="cta-section">
+        <span className="eyebrow">Start today</span><h2>Your next opportunity deserves a better resume.</h2>
+        <Link href="/upload" className="button button-primary">Get my free analysis <span>→</span></Link>
+      </section>
+    </main>
   );
 }
