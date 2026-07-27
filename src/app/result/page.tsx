@@ -1,24 +1,23 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ResultDashboard, { AnalysisResult } from "@/app/components/ResultDashboard";
-
 export default function ResultPage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [ready, setReady] = useState(false);
-
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem("resumeiq-result");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setResult(JSON.parse(raw));
     } catch {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResult(null);
     } finally {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setReady(true);
     }
   }, []);
-
   return (
     <main className="upload-page">
       <span className="eyebrow">Free AI review</span>
@@ -28,7 +27,6 @@ export default function ResultPage() {
         clearly scored.
       </h1>
       <p>Here&apos;s the breakdown of your resume and how it stacks up.</p>
-
       <section className="upload-card">
         {!ready ? (
           <p className="upload-note">Loading your results…</p>
